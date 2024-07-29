@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<meta name="description" content="POS - Bootstrap Admin Template">
+<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+<meta name="robots" content="noindex, nofollow">
+<title>Login - Pos admin template</title>
+
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="account-page">
+
+<div class="main-wrapper">
+<div class="account-content">
+<div class="login-wrapper">
+<div class="login-content">
+<div class="login-userset">
+<div class="login-logo">
+<img src="assets/img/logo.png" alt="img">
+</div>
+<div class="login-userheading">
+<h3>Create an Account</h3>
+<h4>Continue where you left off</h4>
+</div>
+<form id="signup-form">
+    <div class="form-login">
+        <label>Owner Name</label>
+        <div class="form-addons">
+            <input type="text" name="ownerName" placeholder="Enter owner Name" required minlength="2">
+            <img src="assets/img/icons/users1.svg" alt="img">
+        </div>
+    </div>
+
+    <div class="form-login">
+        <label>Restaurant Name</label>
+        <div class="form-addons">
+            <input type="text" name="restaurantName" placeholder="Enter restaurant Name" required minlength="2">
+            <img src="assets/img/icons/users1.svg" alt="img">
+        </div>
+    </div>
+
+    <div class="form-login">
+        <label>City</label>
+        <div class="form-addons">
+            <input type="text" name="city" placeholder="Enter city" required minlength="2">
+            <img src="assets/img/icons/users1.svg" alt="img">
+        </div>
+    </div>
+
+    <div class="form-login">
+        <label>Address</label>
+        <div class="form-addons">
+            <input type="text" name="address" placeholder="Enter address" required minlength="5">
+            <img src="assets/img/icons/users1.svg" alt="img">
+        </div>
+    </div>
+
+    <div class="form-login">
+        <label>Email</label>
+        <div class="form-addons">
+            <input type="email" name="email" placeholder="Enter you email id" required >
+            <img src="assets/img/icons/users1.svg" alt="img">
+        </div>
+    </div>
+
+    <div class="form-login">
+        <label>Mobile</label>
+        <div class="form-addons">
+            <input type="number"   name="mobile" placeholder="Enter mobile number" >
+            <img src="assets/img/icons/users1.svg" alt="img">
+        </div>
+    </div>
+
+    <div class="form-login">
+        <label>Password</label>
+        <div class="pass-group">
+            <input type="password" name="password" id="password" class="pass-input" placeholder="Enter your password" required minlength="6" maxlength="18">
+            <span class="fas toggle-password fa-eye-slash"></span>
+        </div>
+    </div>
+
+    <div class="form-login">
+        <button type="submit" class="btn btn-login">Sign Up</button>
+    </div>
+
+    <div class="signinform text-center">
+        <h4>Already a user? <a href="/signin" class="hover-a">Sign In</a></h4>
+    </div>
+
+    <div class="form-setlogin">
+        <h4>Or sign up with</h4>
+    </div>
+</form>
+<div class="form-sociallink">
+<ul>
+<li>
+<a href="javascript:void(0);">
+<img src="assets/img/icons/google.png" class="me-2" alt="google">
+Sign Up using Google
+</a>
+</li>
+<li>
+ <a href="javascript:void(0);">
+<img src="assets/img/icons/facebook.png" class="me-2" alt="google">
+Sign Up using Facebook
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="login-img">
+<img src="assets/img/login.jpg" alt="img">
+</div>
+</div>
+</div>
+</div>
+
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+<script>
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+    
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+    
+        let isValid = true;
+        let errorMessage = '';
+    
+        // Validation logic
+        if (data.ownerName.length < 2) {
+            isValid = false;
+            errorMessage += 'Owner Name must be at least 2 characters long.\n';
+        }
+    
+        if (data.restaurantName.length < 2) {
+            isValid = false;
+            errorMessage += 'Restaurant Name must be at least 2 characters long.\n';
+        }
+    
+        if (data.city.length < 2) {
+            isValid = false;
+            errorMessage += 'City must be at least 2 characters long.\n';
+        }
+    
+        if (data.address.length < 5) {
+            isValid = false;
+            errorMessage += 'Address must be at least 5 characters long.\n';
+        }
+    
+        // if (data.username.length < 3 || data.username.length > 15) {
+        //     isValid = false;
+        //     errorMessage += 'Username must be between 3 and 15 characters long.\n';
+        // }
+    
+        // if (!/^\d{10}$/.test(data.mobile)) {
+        //     isValid = false;
+        //     errorMessage += 'Mobile number must be 10 digits long.\n';
+        // }
+    
+        if (data.password.length < 6 || data.password.length > 18) {
+            isValid = false;
+            errorMessage += 'Password must be between 6 and 18 characters long.\n';
+        }
+    
+        if (!isValid) {
+            alert(errorMessage);
+            return; // Prevent form submission if validation fails
+        }
+    
+        // Send data to the server
+        fetch('/api/signup', { // Replace with your API endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert('Sign up successful!');
+                window.location.href = '/signin'; // Redirect to another page if needed
+            } else {
+                alert('Error: ' + result.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+
+            alert('An error occurred. Please try again.');
+        });
+    });
+
+    document.getElementById('password').addEventListener('input', function (e) {
+            const value = e.target.value;
+            // Allow only digits and limit to 8 characters
+            e.target.value = value.replace(/\D/g, '').slice(0, 8);
+        });
+    </script>
+    
+</body>
+</html>
+

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<meta name="description" content="POS - Bootstrap Admin Template">
+<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+<meta name="robots" content="noindex, nofollow">
+<title>Dreams Pos admin template</title>
+
+<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="assets/css/animate.css">
+
+<link rel="stylesheet" href="assets/plugins/owlcarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/plugins/owlcarousel/owl.theme.default.min.css">
+
+<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<style>
+    .quantity-field {
+    width: 25px; /* Adjust this value to your desired width */
+    text-align: center; /* Centers the text within the input */
+    border-radius: 30%;
+}
+
+</style>
+<body>
+<div id="global-loader">
+<div class="whirly-loader"> </div>
+</div>
+<div class="main-wrappers">
+<div class="header">
+
+<div class="header-left border-0 ">
+<a href="/index" class="logo">
+<img src="assets/img/logo.png" alt="">
+</a>
+<a href="/index" class="logo-small">
+<img src="assets/img/logo-small.png" alt="">
+</a>
+</div>
+
+
+<ul class="nav user-menu">
+
+<li class="nav-item">
+<div class="top-nav-search">
+<a href="javascript:void(0);" class="responsive-search">
+<i class="fa fa-search"></i>
+</a>
+<form action="#">
+<div class="searchinputs">
+<input type="text" placeholder="Search Here ...">
+<div class="search-addon">
+<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+</div>
+</div>
+<a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
+</form>
+</div>
+</li>
+
+
+<li class="nav-item dropdown has-arrow flag-nav">
+<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
+<img src="assets/img/flags/us1.png" alt="" height="20">
+</a>
+<div class="dropdown-menu dropdown-menu-right">
+<a href="javascript:void(0);" class="dropdown-item">
+<img src="assets/img/flags/us.png" alt="" height="16"> English
+</a>
+<a href="javascript:void(0);" class="dropdown-item">
+<img src="assets/img/flags/fr.png" alt="" height="16"> French
+</a>
+<a href="javascript:void(0);" class="dropdown-item">
+<img src="assets/img/flags/es.png" alt="" height="16"> Spanish
+</a>
+<a href="javascript:void(0);" class="dropdown-item">
+<img src="assets/img/flags/de.png" alt="" height="16"> German
+</a>
+</div>
+</li>
+
+
+<li class="nav-item dropdown">
+<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+</a>
+<div class="dropdown-menu notifications">
+<div class="topnav-dropdown-header">
+<span class="notification-title">Notifications</span>
+<a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+</div>
+<div class="noti-content">
+<ul class="notification-list">
+<li class="notification-message">
+<a href="activities.html">
+<div class="media d-flex">
+<span class="avatar flex-shrink-0">
+<img alt="" src="assets/img/profiles/avatar-02.jpg">
+</span>
+<div class="media-body flex-grow-1">
+<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media d-flex">
+<span class="avatar flex-shrink-0">
+<img alt="" src="assets/img/profiles/avatar-03.jpg">
+</span>
+<div class="media-body flex-grow-1">
+<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media d-flex">
+<span class="avatar flex-shrink-0">
+<img alt="" src="assets/img/profiles/avatar-06.jpg">
+</span>
+<div class="media-body flex-grow-1">
+<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media d-flex">
+<span class="avatar flex-shrink-0">
+<img alt="" src="assets/img/profiles/avatar-17.jpg">
+</span>
+<div class="media-body flex-grow-1">
+<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+</div>
+</div>
+</a>
+</li>
+<li class="notification-message">
+<a href="activities.html">
+<div class="media d-flex">
+<span class="avatar flex-shrink-0">
+<img alt="" src="assets/img/profiles/avatar-13.jpg">
+</span>
+<div class="media-body flex-grow-1">
+<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<div class="topnav-dropdown-footer">
+<a href="activities.html">View all Notifications</a>
+</div>
+</div>
+</li>
+
+<li class="nav-item dropdown has-arrow main-drop">
+<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+<span class="status online"></span></span>
+</a>
+<div class="dropdown-menu menu-drop-user">
+<div class="profilename"> 
+<div class="profileset">
+<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+<span class="status online"></span></span>
+<div class="profilesets">
+<h6>John Doe</h6>
+<h5>Admin</h5>
+</div>
+</div>
+<hr class="m-0">
+<a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> My Profile</a>
+<a class="dropdown-item" href="generalsettings.html"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings me-2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>Settings</a>
+<hr class="m-0">
+<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+</div>
+</div>
+</li>
+</ul>
+
+
+<div class="dropdown mobile-user-menu">
+<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<a class="dropdown-item" href="profile.html">My Profile</a>
+<a class="dropdown-item" href="generalsettings.html">Settings</a>
+<a class="dropdown-item" href="signin.html">Logout</a>
+</div>
+</div>
+
+</div>
+<div class="page-wrapper ms-0">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 col-sm-12 tabs_wrapper">
+                <!-- Menu Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table datanew">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="checkboxs">
+                                                <input type="checkbox" id="select-all">
+                                                <span class="checkmarks"></span>
+                                            </label>
+                                        </th>
+                                        <th>Item Name</th>
+                                        <th>Category</th>
+                                        <th>Sub Category</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% menus.forEach(menu => { %>
+                                    <tr>
+                                        <td>
+                                            <label class="checkboxs">
+                                                <input type="checkbox" class="product-checkbox" data-id="<%= menu._id %>" data-item="<%= menu.item %>" data-category="<%= menu.category %>" data-subcategory="<%= menu.subCategory %>" data-price="<%= menu.price.toFixed(2) %>">
+                                                <span class="checkmarks"></span>
+                                            </label>
+                                        </td>
+                                        <td class="productimgname">
+                                            <a href="javascript:void(0);"><%= menu.item %></a>
+                                        </td>
+                                        <td><%= menu.category %></td>
+                                        <td><%= menu.subCategory %></td>
+                                        <td><%= menu.price.toFixed(2) %></td>
+                                        <td>
+                                            <a class="me-3" href="editproduct.html">
+                                                <img src="assets/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="confirm-text" href="javascript:void(0);">
+                                                <img src="assets/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-12">
+                <!-- Billing Summary -->
+                <div class="card card-order">
+                    <div class="card-body pt-0">
+                        <div class="totalitem">
+                            <h4>Total items: <span id="total-items">0</span></h4>
+                            <a href="javascript:void(0);" id="clear-all">Clear all</a>
+                        </div>
+                        <div class="product-table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="billing-items">
+                                    <!-- Each item will be added here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="split-card"></div>
+                    <div class="card-body pt-0 pb-2">
+                        <div class="setvalue">
+                            <ul>
+                                <li>
+                                    <h5>Subtotal</h5>
+                                    <h6 id="subtotal">0.00</h6>
+                                </li>
+                                <li>
+                                    <h5>Tax</h5>
+                                    <h6 id="tax">0.00</h6>
+                                </li>
+                                <li class="total-value">
+                                    <h5>Total</h5>
+                                    <h6 id="total">0.00$</h6>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-totallabel">
+                            <h5><button id="checkout-button">Checkout</button></h5>
+                            <h6 id="checkout-total">0.00$</h6>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.product-checkbox');
+        const billingItems = document.getElementById('billing-items');
+        const subtotalEl = document.getElementById('subtotal');
+        const taxEl = document.getElementById('tax');
+        const totalEl = document.getElementById('total');
+        const totalItemsEl = document.getElementById('total-items');
+        const checkoutTotalEl = document.getElementById('checkout-total');
+        const checkoutButton = document.getElementById('checkout-button');
+    
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const item = this.dataset.item;
+                const price = parseFloat(this.dataset.price);
+    
+                if (this.checked) {
+                    addBillingItem(item, price);
+                } else {
+                    removeBillingItem(item);
+                }
+                updateTotals();
+            });
+        });
+    
+        document.getElementById('clear-all').addEventListener('click', function () {
+            billingItems.innerHTML = '';
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            updateTotals();
+        });
+    
+        checkoutButton.addEventListener('click', async function () {
+            // Replace with actual restaurant ID
+            const items = Array.from(billingItems.querySelectorAll('tr')).map(row => {
+                return {
+                    menuItem: row.dataset.id,
+                    quantity: parseInt(row.querySelector('.quantity-field').value)
+                };
+            });
+    
+            const response = await fetch('/api/placeorder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ items })
+            });
+    
+            if (response.ok) {
+                alert('Order placed successfully!');
+                billingItems.innerHTML = '';
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+                updateTotals();
+            } else {
+                alert('Failed to place order.');
+            }
+        });
+    
+        function addBillingItem(item, price) {
+            const row = document.createElement('tr');
+            row.dataset.item = item;
+            row.dataset.id = getItemId(item);  // Function to get item ID from dataset
+            row.innerHTML = `
+                <td>${item}</td>
+                <td>
+                    <div class="input-groups">
+                        <input type="button" value="-" class="button-minus dec button">
+                        <input type="text" name="child" value="1" class="quantity-field">
+                        <input type="button" value="+" class="button-plus inc button">
+                    </div>
+                </td>
+                <td class="item-price">${price.toFixed(2)}</td>
+                <td><a class="confirm-text" href="javascript:void(0);"><img src="assets/img/icons/delete-2.svg" alt="img"></a></td>
+            `;
+            row.querySelector('.confirm-text').addEventListener('click', function () {
+                removeBillingItem(item);
+                updateTotals();
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.dataset.item === item) {
+                        checkbox.checked = false;
+                    }
+                });
+            });
+            row.querySelector('.button-minus').addEventListener('click', function () {
+                updateQuantity(row, -1);
+            });
+            row.querySelector('.button-plus').addEventListener('click', function () {
+                updateQuantity(row, 1);
+            });
+            billingItems.appendChild(row);
+        }
+    
+        function removeBillingItem(item) {
+            const row = billingItems.querySelector(`tr[data-item="${item}"]`);
+            if (row) {
+                billingItems.removeChild(row);
+            }
+        }
+    
+        function updateQuantity(row, change) {
+            const quantityField = row.querySelector('.quantity-field');
+            let quantity = parseInt(quantityField.value);
+            quantity = Math.max(1, quantity + change);
+            quantityField.value = quantity;
+            updateTotals();
+        }
+    
+        function updateTotals() {
+            let subtotal = 0;
+            const rows = billingItems.querySelectorAll('tr');
+            totalItemsEl.textContent = rows.length;
+    
+            rows.forEach(row => {
+                const quantity = parseInt(row.querySelector('.quantity-field').value);
+                const price = parseFloat(row.querySelector('.item-price').textContent);
+                subtotal += quantity * price;
+            });
+    
+            const tax = subtotal * 0.1; // Assuming a tax rate of 10%
+            const total = subtotal + tax;
+    
+            subtotalEl.textContent = subtotal.toFixed(2);
+            taxEl.textContent = tax.toFixed(2);
+            totalEl.textContent = total.toFixed(2) + '$';
+            checkoutTotalEl.textContent = total.toFixed(2) + '$';
+        }
+    
+        function getItemId(item) {
+            const checkbox = Array.from(checkboxes).find(chk => chk.dataset.item === item);
+            return checkbox ? checkbox.dataset.id : null;
+        }
+    });
+ </script>   
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+
+<script src="assets/plugins/owlcarousel/owl.carousel.min.js"></script>
+
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

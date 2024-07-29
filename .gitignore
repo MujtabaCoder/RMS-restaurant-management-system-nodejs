@@ -1,0 +1,34 @@
+
+### `.gitignore`
+
+```gitignore
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+
+# Logs
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# MongoDB files
+data/
+
+# Build output
+dist/
+build/
+
+# Misc
+*.swp
+*.swo

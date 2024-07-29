@@ -1,0 +1,244 @@
+<%- include('header') -%>
+
+<div class="page-wrapper cardhead">
+<div class="content">
+
+<div class="page-header">
+<div class="row">
+<div class="col-sm-12">
+<h3 class="page-title">Chartjs</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+<li class="breadcrumb-item active">Chartjs</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="row">
+   
+    <div class="col-md-12">
+        <form id="dateRangeForm" class="row mb-4">
+            <div class="form-group col-md-3">
+                <label for="startDate" class="mr-2">Start Date:</label>
+                <input type="date" class="form-control" id="startDate" name="startDate">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="endDate" class="mr-2">End Date:</label>
+                <input type="date" class="form-control" id="endDate" name="endDate">
+            </div>
+            <div class="form-group col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Get Report</button>
+            </div>
+        </form>
+    </div>
+    
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Donut Chart</div>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-wrapper-demo">
+                    <canvas id="chartDonut" class="h-300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Pie Chart</div>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-wrapper-demo">
+                    <canvas id="chartPie" class="h-300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Bar Chart</div>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-wrapper-demo">
+                    <canvas id="chartBar" class="h-300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Line Chart</div>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-wrapper-demo">
+                    <canvas id="chartLine" class="h-300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="searchpart">
+<div class="searchcontent">
+<div class="searchhead">
+<h3>Search </h3>
+<a id="closesearch"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+</div>
+<div class="searchcontents">
+<div class="searchparts">
+<input type="text" placeholder="search here">
+<a class="btn btn-searchs">Search</a>
+</div>
+<div class="recentsearch">
+<h2>Recent Search</h2>
+<ul>
+<li>
+<h6><i class="fa fa-search me-2"></i> Settings</h6>
+</li>
+ <li>
+<h6><i class="fa fa-search me-2"></i> Report</h6>
+</li>
+<li>
+<h6><i class="fa fa-search me-2"></i> Invoice</h6>
+</li>
+<li>
+<h6><i class="fa fa-search me-2"></i> Sales</h6>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates.');
+                return;
+            }
+            
+            // Fetch sales data
+            fetch(`/api/reports/sales-by-date?startDate=${startDate}&endDate=${endDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Donut Chart (Sales by Category)
+                    new Chart(document.getElementById('chartDonut').getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: Object.keys(data.salesByCategory),
+                            datasets: [{
+                                data: Object.values(data.salesByCategory),
+                                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                    
+                    // Pie Chart (Sales by SubCategory)
+                    new Chart(document.getElementById('chartPie').getContext('2d'), {
+                        type: 'pie',
+                        data: {
+                            labels: Object.keys(data.salesBySubCategory),
+                            datasets: [{
+                                data: Object.values(data.salesBySubCategory),
+                                backgroundColor: [
+                                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FFCD56', '#4D5360', '#C9CBCF', '#7E57C2'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching sales data:', error));
+            
+            // Fetch orders data
+            fetch(`/api/reports/orders-by-date?startDate=${startDate}&endDate=${endDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Bar Chart (Most Popular Items)
+                    new Chart(document.getElementById('chartBar').getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: data.mostPopularItems.map(item => item[0]),
+                            datasets: [{
+                                label: 'Orders',
+                                data: data.mostPopularItems.map(item => item[1]),
+                                backgroundColor: '#36A2EB'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Line Chart (Average Order Value)
+                    new Chart(document.getElementById('chartLine').getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Sample data, you can update this with actual data
+                            datasets: [{
+                                label: 'Average Order Value',
+                                data: new Array(6).fill(data.averageOrderValue), // Sample data
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: '#36A2EB',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching orders data:', error));
+        });
+    });
+</script>
+
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/plugins/chartjs/chart.min.js"></script>
+<script src="assets/plugins/chartjs/chart-data.js"></script>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
