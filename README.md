@@ -10,6 +10,21 @@ A comprehensive Restaurant Management System (RMS) built using Node.js and Mongo
 - **Sales Reporting:** Track and store sales data for generating reports.
 - **User Authentication:** Secure login and access control.
 
+## Screenshots
+
+Here are some screenshots of the project:
+
+### Auth
+![Dashboard Screenshot](public/assets/img/screenshot1.png)
+
+### Billing
+![Menu Management Screenshot](public/assets/img/screenshot2.png)
+
+### Reports
+![Billing Screenshot](public/assets/img/screenshot3.png)
+![Billing Screenshot](public/assets/img/screenshot4.png)
+
+
 ## Getting Started
 
 ### Prerequisites
@@ -24,8 +39,9 @@ Ensure you have the following installed:
 1. **Clone the Repository**
 
    ```bash
-   git clone 
+   git clone https://github.com/MujtabaCoder/RMS-restaurant-management-system-nodejs
    cd your-repo-name
+
 
 
 
