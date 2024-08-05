@@ -1,0 +1,176 @@
+<%- include('header') -%>
+<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Expense Add</h4>
+                <h6>Add/Update Expenses</h6>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form id="add-expense-form">
+                    <div class="row">
+                        <!-- Expense Category -->
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="category">Expense Category</label>
+                                <select class="form-control custom-select" id="category" required>
+                                    <option value="" disabled selected> expense category</option>
+                                    <option value="supplies">Supplies</option>
+                                    <option value="salaries">Salaries</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="rent">Rent/Mortgage</option>
+                                    <option value="insurance">Insurance</option>
+                                    <option value="depreciation">Depreciation</option>
+                                    <option value="labor">Labor Costs</option>
+                                    <option value="marketing">Marketing and Advertising</option>
+                                    <option value="maintenance">Maintenance and Repairs</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="licenses">Licenses and Permits</option>
+                                    <option value="miscellaneous">Miscellaneous</option>
+                                    <!-- Add more categories as needed -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Expense Date -->
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="expenseDate">Expense Date</label>
+                                <input type="date" id="expenseDate" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Amount -->
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <div class="input-group">
+                                    <input type="number" id="amount" class="form-control" step="0.01" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reference No. -->
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="invoiceNumber">InvoiceNumber / Reference No.</label>
+                                <input type="text" id="invoiceNumber" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <!-- Expense for -->
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="vendor">Expense for (vendor/employee)</label>
+                                <input type="text" id="vendor" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description"></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="col-lg-12">
+                            <button type="submit" class="btn btn-submit me-2">Submit</button>
+                            <a href="expenselist.html" class="btn btn-cancel">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    document.getElementById("add-expense-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
+        
+        const category = document.getElementById("category").value;
+        const expenseDate = document.getElementById("expenseDate").value;
+        const amount = document.getElementById("amount").value;
+        const invoiceNumber = document.getElementById("invoiceNumber").value;
+        const vendor = document.getElementById("vendor").value;
+        const description = document.getElementById("description").value;
+
+        const data = {
+            category,
+            expenseDate,
+            amount,
+            invoiceNumber,
+            vendor,
+            description
+        };
+
+        try {
+            const response = await fetch("/api/addexpense", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const savedExpense = await response.json();
+                console.log("Expense saved successfully:", savedExpense);
+                alert("Expense added successfully!");
+
+                // Clear form fields
+                document.getElementById("category").value = "";
+                document.getElementById("expenseDate").value = "";
+                document.getElementById("amount").value = "";
+                document.getElementById("invoiceNumber").value = "";
+                document.getElementById("vendor").value = "";
+                document.getElementById("description").value = "";
+            } else {
+                const errorText = await response.text();
+                console.error("Error saving expense:", errorText);
+                alert("Error: " + errorText);
+            }
+        } catch (err) {
+            console.error("Request failed:", err);
+            alert("Request failed: " + err.message);
+        }
+    });
+</script>
+
+
+
+
+
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="assets/js/feather.min.js"></script>
+
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

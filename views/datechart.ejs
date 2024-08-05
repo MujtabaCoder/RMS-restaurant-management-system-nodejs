@@ -37,7 +37,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Donut Chart</div>
+                <div class="card-title">Veg Non-veg</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -49,7 +49,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Pie Chart</div>
+                <div class="card-title">Sub Categore</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -61,7 +61,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Bar Chart</div>
+                <div class="card-title">Most popular Item</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -73,7 +73,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Line Chart</div>
+                <div class="card-title">Avrage Order Value </div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -82,6 +82,54 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Order Volume by Hour</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="order-volume-by-hour-chart" class="chart-set"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Sales Over Time</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="sales-over-time-chart" class="chart-set"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Revenue by Order Type</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="revenue-by-order-type-chart" class="chart-set"></canvas>
+            </div>
+        </div>
+    </div>
+       
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Order Type Chart</h5>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-wrapper-demo">
+                <canvas id="donut-chart" class="chart-set"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 </div>
 </div>
@@ -121,6 +169,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let donutChart, pieChart, barChart, lineChart, orderTypeChart, salesOverTimeChart, orderVolumeByHourChart, revenueByOrderTypeChart;
+
         document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -136,8 +186,12 @@
             fetch(`/api/reports/sales-by-date?startDate=${startDate}&endDate=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
+                    // Destroy previous charts
+                    if (donutChart) donutChart.destroy();
+                    if (pieChart) pieChart.destroy();
+
                     // Donut Chart (Sales by Category)
-                    new Chart(document.getElementById('chartDonut').getContext('2d'), {
+                    donutChart = new Chart(document.getElementById('chartDonut').getContext('2d'), {
                         type: 'doughnut',
                         data: {
                             labels: Object.keys(data.salesByCategory),
@@ -153,7 +207,7 @@
                     });
                     
                     // Pie Chart (Sales by SubCategory)
-                    new Chart(document.getElementById('chartPie').getContext('2d'), {
+                    pieChart = new Chart(document.getElementById('chartPie').getContext('2d'), {
                         type: 'pie',
                         data: {
                             labels: Object.keys(data.salesBySubCategory),
@@ -176,8 +230,16 @@
             fetch(`/api/reports/orders-by-date?startDate=${startDate}&endDate=${endDate}`)
                 .then(response => response.json())
                 .then(data => {
+                    // Destroy previous charts
+                    if (barChart) barChart.destroy();
+                    if (lineChart) lineChart.destroy();
+                    if (orderTypeChart) orderTypeChart.destroy();
+                    if (salesOverTimeChart) salesOverTimeChart.destroy();
+                    if (orderVolumeByHourChart) orderVolumeByHourChart.destroy();
+                    if (revenueByOrderTypeChart) revenueByOrderTypeChart.destroy();
+
                     // Bar Chart (Most Popular Items)
-                    new Chart(document.getElementById('chartBar').getContext('2d'), {
+                    barChart = new Chart(document.getElementById('chartBar').getContext('2d'), {
                         type: 'bar',
                         data: {
                             labels: data.mostPopularItems.map(item => item[0]),
@@ -199,7 +261,7 @@
                     });
                     
                     // Line Chart (Average Order Value)
-                    new Chart(document.getElementById('chartLine').getContext('2d'), {
+                    lineChart = new Chart(document.getElementById('chartLine').getContext('2d'), {
                         type: 'line',
                         data: {
                             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Sample data, you can update this with actual data
@@ -221,11 +283,112 @@
                             }
                         }
                     });
+
+                    // Donut Chart (Order Types)
+                    orderTypeChart = new Chart(document.getElementById('donut-chart').getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: Object.keys(data.orderTypeCounts),
+                            datasets: [{
+                                label: 'Order Types',
+                                data: Object.values(data.orderTypeCounts),
+                                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '80%', // Adjust this value to make the doughnut strips thinner
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            let total = 0;
+                                            context.dataset.data.forEach(value => {
+                                                total += value;
+                                            });
+                                            const percentage = ((context.raw / total) * 100).toFixed(2) + '%';
+                                            return context.label + ': ' + context.raw + ' (' + percentage + ')';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Line Chart (Sales Over Time)
+                    salesOverTimeChart = new Chart(document.getElementById('sales-over-time-chart').getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: Object.keys(data.salesOverTime),
+                            datasets: [{
+                                label: 'Sales Over Time',
+                                data: Object.values(data.salesOverTime),
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: '#4BC0C0',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    // Bar Chart (Order Volume by Hour)
+                    orderVolumeByHourChart = new Chart(document.getElementById('order-volume-by-hour-chart').getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                            datasets: [{
+                                label: 'Order Volume by Hour',
+                                data: data.orderVolumeByHour,
+                                backgroundColor: '#FF6384'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    // Bar Chart (Revenue by Order Type)
+                    revenueByOrderTypeChart = new Chart(document.getElementById('revenue-by-order-type-chart').getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['Dine In', 'Take Away', 'Online'],
+                            datasets: [{
+                                label: 'Revenue by Order Type',
+                                data: [data.revenueByOrderType.dineIn, data.revenueByOrderType.takeAway, data.revenueByOrderType.online],
+                                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
                 })
                 .catch(error => console.error('Error fetching orders data:', error));
         });
     });
 </script>
+
 
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>

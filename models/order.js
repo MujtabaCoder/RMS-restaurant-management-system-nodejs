@@ -1,4 +1,3 @@
-
 // models/Order.js
 const mongoose = require('mongoose');
 
@@ -28,10 +27,19 @@ const orderSchema = new mongoose.Schema({
   taxAmount: {
     type: Number,
     required: true
-},
+  },
   totalAmount: {
     type: Number,
     required: true
+  },
+  orderType: {
+    type: String,
+    enum: ['dine in', 'take away', 'online'],
+    required: true
+  },
+  comment: {
+    type: String,
+    default: ''
   },
   createdAt: {
     type: Date,

@@ -1,11 +1,8 @@
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require('dotenv').config();
 const jwtUtils = require('../jwt');
-const Menu = require('../models/menu')
 
 const restaurantModel = require("../models/restaurant");
-const { response } = require("express");
 
 // const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -106,17 +103,7 @@ exports.getRestaurant = async function (req, res) {
 }
 
 
-exports.getIndex = async function (req,res){
-    const restaurantId = req.restaurant.restaurantId; // Assuming `req.restaurant` is set by authentication middleware
 
-    try {
-        const menus = await Menu.find({ restaurantId });
-        res.render('index', { menus }); // Render 'menu.ejs' and pass 'menus' to it
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-
-}
 
 exports.LogOut = async (req,res)=>{
     try {

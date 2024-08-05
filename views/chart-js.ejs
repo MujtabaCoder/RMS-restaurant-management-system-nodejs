@@ -21,7 +21,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Donut Chart</div>
+                <div class="card-title">Veg Non-Veg</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -33,7 +33,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Pie Chart</div>
+                <div class="card-title">Categore  Pie Chart</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -47,7 +47,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Bar Chart</div>
+                <div class="card-title">Most Selling Item</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -57,11 +57,21 @@
         </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Order Volume by Hour</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="order-volume-by-hour-chart" class="chart-set"></canvas>
+            </div>
+        </div>
+    </div>
 
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Line Chart</div>
+                <div class="card-title">Avrage Order Price</div>
             </div>
             <div class="card-body">
                 <div class="chartjs-wrapper-demo">
@@ -70,7 +80,45 @@
             </div>
         </div>
     </div>
+
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Sales Over Time</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="sales-over-time-chart" class="chart-set"></canvas>
+            </div>
+        </div>
+    </div>
+    
    
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Revenue by Order Type</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="revenue-by-order-type-chart" class="chart-set"></canvas>
+            </div>
+        </div>
+    </div>
+       
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Order Type Chart</h5>
+            </div>
+            <div class="card-body">
+                <div class="chartjs-wrapper-demo">
+                <canvas id="donut-chart" class="chart-set"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     
    
 
@@ -151,58 +199,161 @@
             });
                 
             });
-    
-        fetch('/api/reports/orders')
-            .then(response => response.json())
-            .then(data => {
-                // Bar Chart (Total Orders)
-                new Chart(document.getElementById('chartBar').getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: data.mostPopularItems.map(item => item[0]),
-                        datasets: [{
-                            label: 'Orders',
-                            data: data.mostPopularItems.map(item => item[1]),
-                            backgroundColor: '#36A2EB'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
+
+
+
+            fetch('/api/reports/orders')
+    .then(response => response.json())
+    .then(data => {
+        // Bar Chart (Total Orders)
+        new Chart(document.getElementById('chartBar').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: data.mostPopularItems.map(item => item[0]),
+                datasets: [{
+                    label: 'Orders',
+                    data: data.mostPopularItems.map(item => item[1]),
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Line Chart (Average Order Value)
+        new Chart(document.getElementById('chartLine').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Sample data
+                datasets: [{
+                    label: 'Average Order Value',
+                    data: [data.averageOrderValue, data.averageOrderValue, data.averageOrderValue, data.averageOrderValue, data.averageOrderValue, data.averageOrderValue], // Sample data
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: '#36A2EB',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Donut Chart (Order Types)
+        new Chart(document.getElementById('donut-chart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(data.orderTypeCounts),
+                datasets: [{
+                    label: 'Order Types',
+                    data: Object.values(data.orderTypeCounts),
+                    backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '80%', // Adjust this value to make the doughnut strips thinner
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let total = 0;
+                                context.dataset.data.forEach(value => {
+                                    total += value;
+                                });
+                                const percentage = ((context.raw / total) * 100).toFixed(2) + '%';
+                                return context.label + ': ' + context.raw + ' (' + percentage + ')';
                             }
                         }
                     }
-                });
-    
-                // Line Chart (Average Order Value)
-                new Chart(document.getElementById('chartLine').getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Sample data
-                        datasets: [{
-                            label: 'Average Order Value',
-                            data: [data.averageOrderValue, data.averageOrderValue, data.averageOrderValue, data.averageOrderValue, data.averageOrderValue, data.averageOrderValue], // Sample data
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: '#36A2EB',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+                }
+            }
+        });
+        // Line Chart (Sales Over Time)
+
+        new Chart(document.getElementById('sales-over-time-chart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(data.salesOverTime),
+                datasets: [{
+                    label: 'Sales Over Time',
+                    data: Object.values(data.salesOverTime),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: '#4BC0C0',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
-                });
-            });
-    
-      
+                }
+            }
+        });
+
+        // Bar Chart (Order Volume by Hour)
+        new Chart(document.getElementById('order-volume-by-hour-chart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
+                datasets: [{
+                    label: 'Order Volume by Hour',
+                    data: data.orderVolumeByHour,
+                    backgroundColor: '#FF6384'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Bar Chart (Revenue by Order Type)
+        new Chart(document.getElementById('revenue-by-order-type-chart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Dine In', 'Take Away', 'Online'],
+                datasets: [{
+                    label: 'Revenue by Order Type',
+                    data: [data.revenueByOrderType.dineIn, data.revenueByOrderType.takeAway, data.revenueByOrderType.online],
+                    backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    });
+
+            
             
     });
     </script>
@@ -218,6 +369,8 @@
 <script src="assets/plugins/chartjs/chart.min.js"></script>
 <script src="assets/plugins/chartjs/chart-data.js"></script>
 
+<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+<script src="assets/plugins/apexchart/chart-data.js"></script>
 <script src="assets/js/script.js"></script>
 </body>
 </html>

@@ -32,6 +32,8 @@
     width: 25px; /* Adjust this value to your desired width */
     text-align: center; /* Centers the text within the input */
     border-radius: 30%;
+
+
 }
 
 </style>
@@ -269,7 +271,53 @@
                 </div>
             </div>
             <div class="col-lg-4 col-sm-12">
+                <a href="javascript:void(0);" class="btn btn-adds" data-bs-toggle="modal" data-bs-target="#create"><i class="fa fa-plus me-2"></i>Add Customer</a>
+
+                <!-- customer modal -->
+                <div class="modal fade" id="create" tabindex="-1" aria-labelledby="create" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Create</h5>
+                          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="customerForm">
+                            <div class="row">
+                              <div class="col-lg-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                  <label>Customer Name</label>
+                                  <input type="text" value=""  id="customerName" class="form-control">
+                                </div>
+                              </div>
+                              <div class="col-lg-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                  <label>Phone</label>
+                                  <input type="text" value="" id="customerPhone" class="form-control">
+                                </div>
+                              </div>
+                              <div class="col-lg-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                  <label>Address</label>
+                                  <input type="text" value="" id="customerAddress" class="form-control">
+                                </div>
+                              </div>
+                              <div class="col-lg-12">
+                                <a class="btn btn-submit me-2" id="submit-button" >Submit</a>
+                                <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 <!-- Billing Summary -->
+
                 <div class="card card-order">
                     <div class="card-body pt-0">
                         <div class="totalitem">
@@ -310,6 +358,31 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <textarea rows="4" id="order-comment" class="form-control"  style="width: 400px;" placeholder="Enter comment / Address..."></textarea>
+                        </div>
+                         <br>
+                        
+                        <div class="setvaluecash">
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);" id="dinein" class="ordermethod">
+                                        Dine In
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" id="takeaway" class="ordermethod">
+                                        Take Away
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" id="online" class="ordermethod">
+                                        Online
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
                         <div class="btn-totallabel">
                             <h5><button id="checkout-button">Checkout</button></h5>
                             <h6 id="checkout-total">0.00$</h6>
@@ -323,137 +396,189 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const checkboxes = document.querySelectorAll('.product-checkbox');
-        const billingItems = document.getElementById('billing-items');
-        const subtotalEl = document.getElementById('subtotal');
-        const taxEl = document.getElementById('tax');
-        const totalEl = document.getElementById('total');
-        const totalItemsEl = document.getElementById('total-items');
-        const checkoutTotalEl = document.getElementById('checkout-total');
-        const checkoutButton = document.getElementById('checkout-button');
-    
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                const item = this.dataset.item;
-                const price = parseFloat(this.dataset.price);
-    
-                if (this.checked) {
-                    addBillingItem(item, price);
-                } else {
-                    removeBillingItem(item);
-                }
-                updateTotals();
-            });
-        });
-    
-        document.getElementById('clear-all').addEventListener('click', function () {
-            billingItems.innerHTML = '';
-            checkboxes.forEach(checkbox => checkbox.checked = false);
+    const checkboxes = document.querySelectorAll('.product-checkbox');
+    const billingItems = document.getElementById('billing-items');
+    const subtotalEl = document.getElementById('subtotal');
+    const taxEl = document.getElementById('tax');
+    const totalEl = document.getElementById('total');
+    const totalItemsEl = document.getElementById('total-items');
+    const checkoutTotalEl = document.getElementById('checkout-total');
+    const checkoutButton = document.getElementById('checkout-button');
+    const submitButton = document.getElementById('submit-button');
+    let selectedOrderType = '';
+
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            const item = this.dataset.item;
+            const price = parseFloat(this.dataset.price);
+
+            if (this.checked) {
+                addBillingItem(item, price);
+            } else {
+                removeBillingItem(item);
+            }
             updateTotals();
         });
-    
-        checkoutButton.addEventListener('click', async function () {
-            // Replace with actual restaurant ID
-            const items = Array.from(billingItems.querySelectorAll('tr')).map(row => {
-                return {
-                    menuItem: row.dataset.id,
-                    quantity: parseInt(row.querySelector('.quantity-field').value)
-                };
+    });
+
+    document.getElementById('clear-all').addEventListener('click', function () {
+        billingItems.innerHTML = '';
+        checkboxes.forEach(checkbox => checkbox.checked = false);
+        updateTotals();
+    });
+
+    document.getElementById('dinein').addEventListener('click', function () {
+            selectedOrderType = 'dine in';
+            updateOrderTypeSelection('dinein');
+        });
+
+        document.getElementById('takeaway').addEventListener('click', function () {
+            selectedOrderType = 'take away';
+            updateOrderTypeSelection('takeaway');
+        });
+
+        document.getElementById('online').addEventListener('click', function () {
+            selectedOrderType = 'online';
+            updateOrderTypeSelection('online');
+        });
+
+        function updateOrderTypeSelection(selectedId) {
+            document.querySelectorAll('.ordermethod').forEach(button => {
+                button.classList.remove('selected');
             });
-    
-            const response = await fetch('/api/placeorder', {
+            document.getElementById(selectedId).classList.add('selected');
+        }
+
+    checkoutButton.addEventListener('click', async function () {
+         const comment = document.getElementById('order-comment').value;
+        // Replace with actual restaurant ID
+        const items = Array.from(billingItems.querySelectorAll('tr')).map(row => {
+            return {
+                menuItem: row.dataset.id,
+                quantity: parseInt(row.querySelector('.quantity-field').value)
+            };
+        });
+
+        const response = await fetch('/api/placeorder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ items })
+                body: JSON.stringify({ items, orderType: selectedOrderType, comment })
             });
-    
+
             if (response.ok) {
                 alert('Order placed successfully!');
                 billingItems.innerHTML = '';
+                document.getElementById('order-comment').value = '';
                 checkboxes.forEach(checkbox => checkbox.checked = false);
                 updateTotals();
             } else {
                 alert('Failed to place order.');
             }
+    });
+
+    submitButton.addEventListener('click', async function () {
+        const name = document.getElementById('customerName').value;
+        const phone = document.getElementById('customerPhone').value;
+        const address = document.getElementById('customerAddress').value;
+
+        const response = await fetch('/customers/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, phone, address })
         });
-    
-        function addBillingItem(item, price) {
-            const row = document.createElement('tr');
-            row.dataset.item = item;
-            row.dataset.id = getItemId(item);  // Function to get item ID from dataset
-            row.innerHTML = `
-                <td>${item}</td>
-                <td>
-                    <div class="input-groups">
-                        <input type="button" value="-" class="button-minus dec button">
-                        <input type="text" name="child" value="1" class="quantity-field">
-                        <input type="button" value="+" class="button-plus inc button">
-                    </div>
-                </td>
-                <td class="item-price">${price.toFixed(2)}</td>
-                <td><a class="confirm-text" href="javascript:void(0);"><img src="assets/img/icons/delete-2.svg" alt="img"></a></td>
-            `;
-            row.querySelector('.confirm-text').addEventListener('click', function () {
-                removeBillingItem(item);
-                updateTotals();
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.dataset.item === item) {
-                        checkbox.checked = false;
-                    }
-                });
-            });
-            row.querySelector('.button-minus').addEventListener('click', function () {
-                updateQuantity(row, -1);
-            });
-            row.querySelector('.button-plus').addEventListener('click', function () {
-                updateQuantity(row, 1);
-            });
-            billingItems.appendChild(row);
-        }
-    
-        function removeBillingItem(item) {
-            const row = billingItems.querySelector(`tr[data-item="${item}"]`);
-            if (row) {
-                billingItems.removeChild(row);
-            }
-        }
-    
-        function updateQuantity(row, change) {
-            const quantityField = row.querySelector('.quantity-field');
-            let quantity = parseInt(quantityField.value);
-            quantity = Math.max(1, quantity + change);
-            quantityField.value = quantity;
-            updateTotals();
-        }
-    
-        function updateTotals() {
-            let subtotal = 0;
-            const rows = billingItems.querySelectorAll('tr');
-            totalItemsEl.textContent = rows.length;
-    
-            rows.forEach(row => {
-                const quantity = parseInt(row.querySelector('.quantity-field').value);
-                const price = parseFloat(row.querySelector('.item-price').textContent);
-                subtotal += quantity * price;
-            });
-    
-            const tax = subtotal * 0.1; // Assuming a tax rate of 10%
-            const total = subtotal + tax;
-    
-            subtotalEl.textContent = subtotal.toFixed(2);
-            taxEl.textContent = tax.toFixed(2);
-            totalEl.textContent = total.toFixed(2) + '$';
-            checkoutTotalEl.textContent = total.toFixed(2) + '$';
-        }
-    
-        function getItemId(item) {
-            const checkbox = Array.from(checkboxes).find(chk => chk.dataset.item === item);
-            return checkbox ? checkbox.dataset.id : null;
+
+        if (response.ok) {
+            const customer = await response.json();
+            console.log('Customer created:', customer);
+            // Close modal and reset form
+            $('#create').modal('hide');
+            document.getElementById('customerForm').reset();
+        } else {
+            console.error('Failed to create customer');
         }
     });
- </script>   
+
+    function addBillingItem(item, price) {
+        const row = document.createElement('tr');
+        row.dataset.item = item;
+        row.dataset.id = getItemId(item);  // Function to get item ID from dataset
+        row.innerHTML = `
+            <td>${item}</td>
+            <td>
+                <div class="input-groups">
+                    <input type="button" value="-" class="button-minus dec button">
+                    <input type="text" name="child" value="1" class="quantity-field">
+                    <input type="button" value="+" class="button-plus inc button">
+                </div>
+            </td>
+            <td class="item-price">${price.toFixed(2)}</td>
+            <td><a class="confirm-text" href="javascript:void(0);"><img src="assets/img/icons/delete-2.svg" alt="img"></a></td>
+        `;
+        row.querySelector('.confirm-text').addEventListener('click', function () {
+            removeBillingItem(item);
+            updateTotals();
+            checkboxes.forEach(checkbox => {
+                if (checkbox.dataset.item === item) {
+                    checkbox.checked = false;
+                }
+            });
+        });
+        row.querySelector('.button-minus').addEventListener('click', function () {
+            updateQuantity(row, -1);
+        });
+        row.querySelector('.button-plus').addEventListener('click', function () {
+            updateQuantity(row, 1);
+        });
+        billingItems.appendChild(row);
+    }
+
+    function removeBillingItem(item) {
+        const row = billingItems.querySelector(`tr[data-item="${item}"]`);
+        if (row) {
+            billingItems.removeChild(row);
+        }
+    }
+
+    function updateQuantity(row, change) {
+        const quantityField = row.querySelector('.quantity-field');
+        let quantity = parseInt(quantityField.value);
+        quantity = Math.max(1, quantity + change);
+        quantityField.value = quantity;
+        updateTotals();
+    }
+
+    function updateTotals() {
+        let subtotal = 0;
+        const rows = billingItems.querySelectorAll('tr');
+        totalItemsEl.textContent = rows.length;
+
+        rows.forEach(row => {
+            const quantity = parseInt(row.querySelector('.quantity-field').value);
+            const price = parseFloat(row.querySelector('.item-price').textContent);
+            subtotal += quantity * price;
+        });
+
+        const tax = subtotal * 0.1; // Assuming a tax rate of 10%
+        const total = subtotal + tax;
+
+        subtotalEl.textContent = subtotal.toFixed(2);
+        taxEl.textContent = tax.toFixed(2);
+        totalEl.textContent = total.toFixed(2) + '$';
+        checkoutTotalEl.textContent = total.toFixed(2) + '$';
+    }
+
+    function getItemId(item) {
+        const checkbox = Array.from(checkboxes).find(chk => chk.dataset.item === item);
+        return checkbox ? checkbox.dataset.id : null;
+    }
+});
+
+</script>
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 

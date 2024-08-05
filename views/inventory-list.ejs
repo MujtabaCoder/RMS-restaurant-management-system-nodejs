@@ -1,0 +1,155 @@
+<%- include('header') -%>
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h4>Inventory List</h4>
+                <h6>Manage your inventory</h6>
+            </div>
+            <div class="page-btn">
+                <a href="/addinventory" class="btn btn-added">
+                    <img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add New Item
+                </a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-top">
+                    <div class="search-set">
+                        <div class="search-path">
+                            <a class="btn btn-filter" id="filter_search">
+                                <img src="assets/img/icons/filter.svg" alt="img">
+                                <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                            </a>
+                        </div>
+                        <div class="search-input">
+                            <a class="btn btn-searchset">
+                                <img src="assets/img/icons/search-white.svg" alt="img">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="wordset">
+                        <ul>
+                            <li>
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+                                    <img src="assets/img/icons/pdf.svg" alt="img">
+                                </a>
+                            </li>
+                            <li>
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+                                    <img src="assets/img/icons/excel.svg" alt="img">
+                                </a>
+                            </li>
+                            <li>
+                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+                                    <img src="assets/img/icons/printer.svg" alt="img">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table datanew">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label class="checkboxs">
+                                        <input type="checkbox" id="select-all">
+                                        <span class="checkmarks"></span>
+                                    </label>
+                                </th>
+                                <th>Supplier Name</th>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% inventoryItems.forEach(item => { %>
+                                <tr>
+                                    <td>
+                                        <label class="checkboxs">
+                                            <input type="checkbox">
+                                            <span class="checkmarks"></span>
+                                        </label>
+                                    </td>
+                                    <td><%= item.supplier.name %></td>
+                                    <td class="productimgname">
+                                        <a href="javascript:void(0);"><%= item.name %></a>
+                                    </td>
+                                    <td><%= item.quantity %></td>
+                                    <td><%= item.price.toFixed(2) %></td>
+                                    <td>
+                                        <!-- <a class="me-3" href="product-details.html">
+                                            <img src="assets/img/icons/eye.svg" alt="img">
+                                        </a> -->
+                                        <a class="me-3" href="editproduct.html">
+                                            <img src="assets/img/icons/edit.svg" alt="img">
+                                        </a>
+                                        <a  href="javascript:void(0);" onclick="confirmDeleteExpense('<%= item._id %>')">
+                                            <img src="assets/img/icons/delete.svg" alt="img">
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDeleteExpense(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/deleteinventory/' + id,
+                    type: 'DELETE',
+                    success: function(result) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your expense has been deleted.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    },
+                    error: function(err) {
+                        Swal.fire(
+                            'Error!',
+                            'There was an error deleting the expense.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+    </script>
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/feather.min.js"></script>
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

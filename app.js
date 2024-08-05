@@ -7,9 +7,7 @@ const connectDB = require('./db');
 const session = require('express-session');
 const restaurantRoutes = require('./routes/restaurantRoutes')
 const port = process.env.PORT
-
 const app = express()
-
 connectDB();
 
 
